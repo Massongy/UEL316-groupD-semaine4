@@ -65,6 +65,8 @@ class UserCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')->hideOnForm(),
+            TextField::new('nom'),
+            TextField::new('prenom'),
             EmailField::new('email'),
             ChoiceField::new('roles')
                 ->setChoices([
@@ -79,7 +81,10 @@ class UserCrudController extends AbstractCrudController
                     'required' => $pageName === Crud::PAGE_NEW,
                     'empty_data' => '',
                 ])
-                ->onlyOnForms()
+                ->onlyOnForms(),
+            Field::new('createdAt')->hideOnForm(),
+            Field::new('updatedAt')->hideOnForm(),
+            Field::new('actif')->onlyOnIndex(),
         ];
     }
 }

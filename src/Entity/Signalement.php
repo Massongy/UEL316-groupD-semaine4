@@ -19,7 +19,7 @@ class Signalement
 
     #[ORM\ManyToOne(inversedBy: 'signalements')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Commentaire $commentaire = null;
+    private ?Comment $comment = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
@@ -27,8 +27,11 @@ class Signalement
     #[ORM\Column]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    // Getters et Setters
-    
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
     public function getMotif(): ?MotifSignalement
     {
         return $this->motif;
@@ -61,6 +64,16 @@ class Signalement
         $this->updatedAt = $updatedAt;
         return $this;
     }
-    
-    // ... autres getters/setters
+
+    public function getComment(): ?Comment
+    {
+        return $this->comment;
+    }
+
+    public function setComment(?Comment $comment): static
+    {
+        $this->comment = $comment;
+
+        return $this;
+    }
 }

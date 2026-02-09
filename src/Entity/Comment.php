@@ -2,15 +2,14 @@
 
 namespace App\Entity;
 
-use App\Enum\StatutCommentaire;
-use App\Repository\CommentaireRepository;
+use App\Repository\CommentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: CommentaireRepository::class)]
-class Commentaire
+#[ORM\Entity(repositoryClass: CommentRepository::class)]
+class Comment
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -20,27 +19,22 @@ class Commentaire
     #[ORM\Column(type: Types::TEXT)]
     private ?string $contenu = null;
 
-    #[ORM\Column(enumType: StatutCommentaire::class)]
-    private ?StatutCommentaire $statut = null;
-
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Utilisateur $utilisateur = null;
-
-    #[ORM\ManyToOne(inversedBy: 'commentaires')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?ActualitePost $actualitePost = null;
-
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $updatedAt = null;
+    private ?\DateTimeImmutable $updated_at = null;
+
+    #[ORM\ManyToOne(inversedBy: 'comments')]
+    private ?user $user = null;
+
+    #[ORM\ManyToOne(inversedBy: 'comments')]
+    private ?Post $post = null;
 
     /**
      * @var Collection<int, Signalement>
      */
-    #[ORM\OneToMany(targetEntity: Signalement::class, mappedBy: 'commentaire')]
+    #[ORM\OneToMany(targetEntity: Signalement::class, mappedBy: 'comment', orphanRemoval: true)]
     private Collection $signalements;
 
     public function __construct()
@@ -48,16 +42,20 @@ class Commentaire
         $this->signalements = new ArrayCollection();
     }
 
-    // Getters et Setters (ajoutez ceux pour statut, createdAt, updatedAt + ceux générés)
-    
-    public function getStatut(): ?StatutCommentaire
+    public function getId(): ?int
     {
-        return $this->statut;
+        return $this->id;
     }
 
-    public function setStatut(StatutCommentaire $statut): static
+    public function getContenu(): ?string
     {
-        $this->statut = $statut;
+        return $this->contenu;
+    }
+
+    public function setContenu(string $contenu): static
+    {
+        $this->contenu = $contenu;
+
         return $this;
     }
 
@@ -69,17 +67,43 @@ class Commentaire
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
+
         return $this;
     }
 
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
-        return $this->updatedAt;
+        return $this->updated_at;
     }
 
-    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
+    public function setUpdatedAt(\DateTimeImmutable $updated_at): static
     {
-        $this->updatedAt = $updatedAt;
+        $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    public function getUser(): ?user
+    {
+        return $this->user;
+    }
+
+    public function setUser(?user $user): static
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getPost(): ?Post
+    {
+        return $this->post;
+    }
+
+    public function setPost(?Post $post): static
+    {
+        $this->post = $post;
+
         return $this;
     }
 
@@ -95,7 +119,7 @@ class Commentaire
     {
         if (!$this->signalements->contains($signalement)) {
             $this->signalements->add($signalement);
-            $signalement->setCommentaire($this);
+            $signalement->setComment($this);
         }
 
         return $this;
@@ -104,13 +128,12 @@ class Commentaire
     public function removeSignalement(Signalement $signalement): static
     {
         if ($this->signalements->removeElement($signalement)) {
-            if ($signalement->getCommentaire() === $this) {
-                $signalement->setCommentaire(null);
+            // set the owning side to null (unless already changed)
+            if ($signalement->getComment() === $this) {
+                $signalement->setComment(null);
             }
         }
 
         return $this;
     }
-    
-    // ... autres getters/setters
 }

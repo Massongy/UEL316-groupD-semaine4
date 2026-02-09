@@ -27,9 +27,7 @@ class Message
     private ?string $message = null;
 
     #[ORM\ManyToOne(inversedBy: 'messages')]
-    private ?Utilisateur $utilisateur = null;
-
-
+    private ?user $user = null;
 
     public function getId(): ?int
     {
@@ -50,12 +48,12 @@ class Message
 
     public function getEamil(): ?string
     {
-        return $this->eamil;
+        return $this->email;
     }
 
-    public function setEamil(string $eamil): static
+    public function setEmail(string $email): static
     {
-        $this->eamil = $eamil;
+        $this->email = $email;
 
         return $this;
     }
@@ -84,14 +82,14 @@ class Message
         return $this;
     }
 
-    public function getUtilisateur(): ?Utilisateur
+    public function getUser(): ?user
     {
-        return $this->utilisateur;
+        return $this->user;
     }
 
-    public function setUtilisateur(?Utilisateur $utilisateur): static
+    public function setUser(?user $user): static
     {
-        $this->utilisateur = $utilisateur;
+        $this->user = $user;
 
         return $this;
     }
