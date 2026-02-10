@@ -106,4 +106,14 @@ class Post
 
         return $this;
     }
+
+    public function getCommentsCount(): int
+    {
+        return $this->comments->count();
+    }
+
+    public function __toString(): string
+    {
+        return (string) $this->getTitre();
+    }
 }
