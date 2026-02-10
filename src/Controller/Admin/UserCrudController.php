@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\User;
+use App\Enum\Role;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
@@ -70,8 +71,8 @@ class UserCrudController extends AbstractCrudController
             EmailField::new('email'),
             ChoiceField::new('roles')
                 ->setChoices([
-                    'Utilisateur' => 'ROLE_USER',
-                    'Admin' => 'ROLE_ADMIN',
+                    'Utilisateur' => Role::MEMBRE->value,
+                    'Admin' => Role::ADMIN->value,
                 ])
                 ->allowMultipleChoices()
                 ->renderExpanded(false),

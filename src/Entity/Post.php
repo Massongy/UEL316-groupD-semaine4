@@ -29,7 +29,7 @@ class Post
     private Collection $comments;
 
     #[ORM\ManyToOne(inversedBy: 'posts')]
-    private ?user $user = null;
+    private ?User $user = null;
 
     public function __construct()
     {
@@ -95,12 +95,12 @@ class Post
         return $this;
     }
 
-    public function getUser(): ?user
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
-    public function setUser(?user $user): static
+    public function setUser(?User $user): static
     {
         $this->user = $user;
 

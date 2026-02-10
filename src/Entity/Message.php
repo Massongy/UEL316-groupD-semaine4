@@ -27,7 +27,7 @@ class Message
     private ?string $message = null;
 
     #[ORM\ManyToOne(inversedBy: 'messages')]
-    private ?user $user = null;
+    private ?User $user = null;
 
     public function getId(): ?int
     {
@@ -82,12 +82,12 @@ class Message
         return $this;
     }
 
-    public function getUser(): ?user
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
-    public function setUser(?user $user): static
+    public function setUser(?User $user): static
     {
         $this->user = $user;
 
