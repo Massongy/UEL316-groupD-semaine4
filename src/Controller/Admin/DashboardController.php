@@ -9,6 +9,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\HttpFoundation\Response;
 use App\Entity\User;
 use App\Entity\Post;
+use App\Entity\Comment;
 
 #[AdminDashboard(routePath: '/admin', routeName: 'admin')]
 class DashboardController extends AbstractDashboardController
@@ -29,5 +30,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToCrud('Gestion des utilisateurs', 'fas fa-users', User::class);
         yield MenuItem::linkToCrud('Gestion des posts', 'fas fa-list', Post::class);
+        yield MenuItem::linkToCrud('Gestion des commentaires', 'fas fa-comments', Comment::class);
     }
 }
