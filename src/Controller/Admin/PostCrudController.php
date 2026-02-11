@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Post;
+use Doctrine\ORM\EntityManagerInterface;
 use Dom\Text;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
@@ -18,6 +19,17 @@ use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
 class PostCrudController extends AbstractCrudController
 {
     public function __construct(private AdminUrlGenerator $adminUrlGenerator) {}
+
+    public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        if (!$entityInstance instanceof \App\Entity\Post) {
+            return;
+        }
+
+        $entityInstance->setUser($this->getUser());
+
+        parent::persistEntity($entityManager, $entityInstance);
+    }
 
     public function configureFilters(Filters $filters): Filters
     {
