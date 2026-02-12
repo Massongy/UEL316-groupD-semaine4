@@ -1,21 +1,78 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Inscription{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-9 col-lg-6">
+            <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+                <div class="p-4 p-md-5">
 
-    {{ form_errors(registrationForm) }}
+                    <div class="text-center mb-4">
+                        <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-primary bg-opacity-10"
+                             style="width:64px;height:64px;">
+                            <span class="fs-3">📝</span>
+                        </div>
+                        <h1 class="h3 mt-3 mb-1 fw-bold">Créer un compte</h1>
+                        <p class="text-muted mb-0">Remplis les infos ci-dessous</p>
+                    </div>
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.nom) }}
-        {{ form_row(registrationForm.prenom) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+                    {{ form_errors(registrationForm) }}
 
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+                    {{ form_start(registrationForm) }}
+
+                        <div class="mb-3">
+                            {{ form_label(registrationForm.email, null, {'label_attr': {'class': 'form-label fw-semibold'}}) }}
+                            {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control form-control-lg rounded-3', 'placeholder': 'ex: nathan@mail.com'}}) }}
+                            {{ form_errors(registrationForm.email) }}
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    {{ form_label(registrationForm.prenom, null, {'label_attr': {'class': 'form-label fw-semibold'}}) }}
+                                    {{ form_widget(registrationForm.prenom, {'attr': {'class': 'form-control form-control-lg rounded-3', 'placeholder': 'Prénom'}}) }}
+                                    {{ form_errors(registrationForm.prenom) }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    {{ form_label(registrationForm.nom, null, {'label_attr': {'class': 'form-label fw-semibold'}}) }}
+                                    {{ form_widget(registrationForm.nom, {'attr': {'class': 'form-control form-control-lg rounded-3', 'placeholder': 'Nom'}}) }}
+                                    {{ form_errors(registrationForm.nom) }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form_label(registrationForm.plainPassword, 'Mot de passe', {'label_attr': {'class': 'form-label fw-semibold'}}) }}
+                            {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control form-control-lg rounded-3', 'placeholder': '••••••••'}}) }}
+                            {{ form_errors(registrationForm.plainPassword) }}
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="form-check">
+                                {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'form-check-input'}}) }}
+                                {{ form_label(registrationForm.agreeTerms, null, {'label_attr': {'class': 'form-check-label'}}) }}
+                            </div>
+                            {{ form_errors(registrationForm.agreeTerms) }}
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-lg w-100 rounded-3 fw-semibold">
+                            Créer mon compte
+                        </button>
+
+                        <div class="text-center mt-4">
+                            <span class="text-muted">Déjà un compte ?</span>
+                            <a href="{{ path('app_login') }}" class="text-decoration-none fw-semibold">Se connecter</a>
+                        </div>
+
+                    {{ form_end(registrationForm) }}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
