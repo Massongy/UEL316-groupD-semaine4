@@ -16,28 +16,25 @@ class PostRepository extends ServiceEntityRepository
         parent::__construct($registry, Post::class);
     }
 
-//    /**
-//     * @return Post[] Returns an array of Post objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /*Recupere les deniere actualités, trie par ID décroissant et limit a 3*/
+    /*Pour la pagge accueil*/
+public function findLatest(int $limit = 3): array
+{
+    return $this->createQueryBuilder('p')
+        ->orderBy('p.id', 'DESC')
+        ->setMaxResults($limit)
+        ->getQuery()
+        ->getResult();
+}
 
-//    public function findOneBySomeField($value): ?Post
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+/* Recupere toutes les actualités, tries <decroissant></decroissant>*
+*Utilisée pour la page toutes les actualités*/
+public function findAllOrdered(): array
+{
+    return $this->createQueryBuilder('p')
+        ->orderBy('p.id', 'DESC')
+        ->getQuery()
+        ->getResult();
+}
+
 }
