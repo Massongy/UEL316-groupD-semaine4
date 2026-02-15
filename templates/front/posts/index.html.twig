@@ -22,8 +22,14 @@
                         Lire l'article
                     </a>
                 </div>
+    
             </div>
         {% endfor %}
+        <div class="mt-4">
+            {{ knp_pagination_render(posts) }}
+
+
+        </div>
     {% endif %}
 </div>
 {% endblock %}

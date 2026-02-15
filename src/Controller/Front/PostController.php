@@ -14,6 +14,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Knp\Component\Pager\PaginatorInterface;
+
 
 class PostController extends AbstractController
 {
@@ -27,16 +29,25 @@ class PostController extends AbstractController
     }
 
     #[Route('/actualites', name: 'front_posts')]
-    public function index(PostRepository $postRepository): Response
-    {
-        $posts = $postRepository->findBy([], ['id' => 'DESC']);
+public function index(
+    PostRepository $postRepository,
+    PaginatorInterface $paginator,
+    Request $request
+): Response {
+    $query = $postRepository->createQueryBuilder('p')
+        ->orderBy('p.id', 'DESC')
+        ->getQuery();
 
+    $posts = $paginator->paginate(
+        $query,
+        $request->query->getInt('page', 1),
+        3
+    );
 
-        return $this->render('front/posts/index.html.twig', [
-            'posts' => $posts,
-        ]);
-    }
-
+    return $this->render('front/posts/index.html.twig', [
+        'posts' => $posts,
+    ]);
+}
     #[Route('/actualites/{id}', name: 'front_post_show', requirements: ['id' => '\d+'])]
     public function show(Post $post, Request $request, EntityManagerInterface $em): Response
     {
