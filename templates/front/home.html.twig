@@ -1,35 +1,63 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Home Test{% endblock %}
+{% block title %}Accueil{% endblock %}
 
 {% block body %}
-  <div class="container py-5">
-    <h1>✅ HOME OK</h1>
-    <p>Si tu vois ça, le rendu fonctionne.</p>
 
-    <hr>
+{# HERO (graphique) #}
+<header class="py-5" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+  <div class="container text-white">
+    <h1 class="display-5 fw-bold mb-2">Bienvenue sur les actualités UEL316</h1>
+    <p class="lead mb-0">
+      Les 3 dernières infos du projet .
+    </p>
+  </div>
+</header>
 
-   <h2>Dernières actus</h2>
+{# CONTENU #}
+<div class="container my-5">
+  <div class="d-flex align-items-center justify-content-between mb-3">
+    <h2 class="h3 mb-0">Dernières actus</h2>
+    <span class="badge bg-secondary">{{ latestPosts|length }} / 3</span>
+  </div>
 
-<div class="row">
-  {% for post in latestPosts %}
-    <div class="col-md-4 mb-3">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">{{ post.titre }}</h5>
-          <a href="{{ path('front_post_show', { id: post.id }) }}" class="btn btn-primary">
-            Lire l'article
-          </a>
-        </div>
-      </div>
+  {% if latestPosts is empty %}
+    <div class="alert alert-warning">
+      Aucun post en base pour le moment.
     </div>
   {% else %}
-    <p>Aucun post en base.</p>
-  {% endfor %}
+    <div class="row g-4">
+      {% for post in latestPosts %}
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card h-100 shadow-sm">
+            <div class="card-body d-flex flex-column">
+              <h3 class="h5 card-title">{{ post.titre }}</h3>
+
+              <p class="card-text text-secondary">
+                {{ post.contenu|striptags|slice(0, 140) }}{% if post.contenu|striptags|length > 140 %}...{% endif %}
+              </p>
+
+              <div class="mt-auto d-flex justify-content-between align-items-center">
+                <a class="btn btn-sm btn-primary"
+                   href="{{ path('front_post_show', { id: post.id }) }}">
+                  Lire la suite
+                </a>
+                <small class="text-muted">
+                  {{ post.commentsCount }} commentaire(s)
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="mt-4">
+      <a class="btn btn-outline-primary" href="{{ path('front_posts') }}">
+        Voir toutes les actualités
+      </a>
+    </div>
+  {% endif %}
 </div>
 
-
-    <a class="btn btn-primary" href="{{ path('front_posts') }}">Voir toutes les actualités</a>
-  </div>
 {% endblock %}
-
