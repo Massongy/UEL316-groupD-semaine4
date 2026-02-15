@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Actualités{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1 class="mb-4">Toutes les actualités</h1>
+
+    {% if posts is empty %}
+        <p>Aucun article disponible.</p>
+    {% else %}
+        {% for post in posts %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h3>{{ post.titre }}</h3>
+                    <p>{{ post.contenu|slice(0, 150) }}...</p>
+
+                    <a href="{{ path('front_post_show', {id: post.id}) }}" class="btn btn-primary">
+                        Lire l'article
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ post.titre }}{% endblock %}
+
+{% block body %}
+
+<h1>{{ post.titre }}</h1>
+
+<p>{{ post.contenu }}</p>
+
+<hr>
+
+<h2>Commentaires</h2>
+
+{% for comment in post.comments %}
+    <div>
+        <p>
+            <strong>{{ comment.user.prenom }} {{ comment.user.nom }}</strong>
+            - {{ comment.createdAt|date('d/m/Y H:i') }}
+        </p>
+
+        <p>{{ comment.contenu }}</p>
+
+        {% if app.user %}
+            <a href="{{ path('front_comment_signal', {id: comment.id}) }}">
+                Signaler
+            </a>
+        {% endif %}
+    </div>
+    <hr>
+{% else %}
+    <p>Aucun commentaire.</p>
+{% endfor %}
+
+<h3>Ajouter un commentaire</h3>
+
+{% if app.user %}
+    {{ form_start(commentForm) }}
+        {{ form_widget(commentForm) }}
+        <button type="submit">Publier</button>
+    {{ form_end(commentForm) }}
+{% else %}
+    <p>Vous devez être connecté pour commenter.</p>
+{% endif %}
+
+{% endblock %}

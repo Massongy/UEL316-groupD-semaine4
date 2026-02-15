@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home Test{% endblock %}
+
+{% block body %}
+  <div class="container py-5">
+    <h1>✅ HOME OK</h1>
+    <p>Si tu vois ça, le rendu fonctionne.</p>
+
+    <hr>
+
+   <h2>Dernières actus</h2>
+
+<div class="row">
+  {% for post in latestPosts %}
+    <div class="col-md-4 mb-3">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{ post.titre }}</h5>
+          <a href="{{ path('front_post_show', { id: post.id }) }}" class="btn btn-primary">
+            Lire l'article
+          </a>
+        </div>
+      </div>
+    </div>
+  {% else %}
+    <p>Aucun post en base.</p>
+  {% endfor %}
+</div>
+
+
+    <a class="btn btn-primary" href="{{ path('front_posts') }}">Voir toutes les actualités</a>
+  </div>
+{% endblock %}
+
