@@ -13,14 +13,23 @@
             <div class="card mb-3">
                 <div class="card-body">
                     <h3>{{ post.titre }}</h3>
-                    <p>{{ post.contenu|slice(0, 150) }}...</p>
+                    <p class="text-secondary mb-3">
+                        {{ post.contenu|striptags|slice(0, 180) }}{% if post.contenu|striptags|length > 180 %}...{% endif %}
+                    </p>
+
 
                     <a href="{{ path('front_post_show', {id: post.id}) }}" class="btn btn-primary">
                         Lire l'article
                     </a>
                 </div>
+    
             </div>
         {% endfor %}
+        <div class="mt-4">
+            {{ knp_pagination_render(posts) }}
+
+
+        </div>
     {% endif %}
 </div>
 {% endblock %}
