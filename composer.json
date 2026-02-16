@@ -4,8 +4,8 @@
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
-        "php": ">=8.4",
-        "ext-ctype": "*",
+        "php": ">=8.5",
+    "ext-intl": "*",
         "ext-iconv": "*",
         "doctrine/doctrine-bundle": "^3.2",
         "doctrine/doctrine-migrations-bundle": "^4.0",
