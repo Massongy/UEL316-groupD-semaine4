@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Entity\User;
 use App\Entity\Post;
 use App\Entity\Comment;
+use App\Entity\Signalement;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted('ROLE_ADMIN')]
@@ -33,5 +34,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Gestion des utilisateurs', 'fas fa-users', User::class);
         yield MenuItem::linkToCrud('Gestion des posts', 'fas fa-list', Post::class);
         yield MenuItem::linkToCrud('Gestion des commentaires', 'fas fa-comments', Comment::class);
+        yield MenuItem::linkToCrud('Gestion des signalements', 'fas fa-flag', Signalement::class);
+        yield MenuItem::linkToRoute('Retour au site', 'fas fa-arrow-left', 'front_home');
     }
 }

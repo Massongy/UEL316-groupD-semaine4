@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Signaler un commentaire{% endblock %}
+
+{% block body %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-8">
+
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-body p-4 p-md-5">
+
+                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-4">
+                        <div>
+                            <h1 class="h4 mb-1 fw-bold">Signaler un commentaire</h1>
+                            <p class="text-muted mb-0">Choisis un motif pour aider la modération.</p>
+                        </div>
+
+                        <a class="btn btn-outline-secondary"
+                           href="{{ path('front_post_show', { id: comment.post.id }) }}">
+                            ← Retour à l’actualité
+                        </a>
+                    </div>
+
+                    {% for label, messages in app.flashes %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ label }} mb-3">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+
+                    <div class="p-3 p-md-4 bg-light rounded-4 mb-4">
+                        <div class="d-flex justify-content-between align-items-start gap-3">
+                            <div class="w-100">
+                                <div class="small text-muted mb-2">
+                                    Commentaire n°{{ comment.id }}
+                                </div>
+
+                                <div class="mb-0">
+                                    {{ comment.contenu }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{ form_start(form) }}
+
+                        <div class="mb-3">
+                            {{ form_widget(form.motif, {
+                                attr: {
+                                    class: 'form-select form-select-lg rounded-3'
+                                }
+                            }) }}
+                            {{ form_errors(form.motif) }}
+                        </div>
+
+                        <div class="d-flex gap-2 mt-4">
+                            <button type="submit" class="btn btn-danger btn-lg rounded-3 fw-semibold">
+                                Signaler
+                            </button>
+
+                            <a class="btn btn-outline-dark btn-lg rounded-3"
+                               href="{{ path('front_post_show', { id: comment.post.id }) }}">
+                                Annuler
+                            </a>
+                        </div>
+
+                    {{ form_end(form) }}
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

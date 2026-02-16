@@ -44,7 +44,9 @@ class CommentCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')->hideOnForm(),
-            TextEditorField::new('contenu'),
+            TextEditorField::new('contenu')->formatValue(function ($value) {
+                return strip_tags($value ?? '');
+            }),
             AssociationField::new('user', 'Auteur')
                 ->formatValue(function ($value) {
                     return $value ? $value->getPrenom() . ' ' . $value->getNom() : '';

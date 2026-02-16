@@ -44,6 +44,11 @@ class Comment
         $this->signalements = new ArrayCollection();
     }
 
+    public function __toString(): string
+    {
+        return strip_tags($this->getContenu() ?? '');
+    }
+
     public function getId(): ?int
     {
         return $this->id;
